@@ -41,26 +41,30 @@ function App() {
     <div className="App">
       <Header />
       <main className="main-content">
-        <SearchBar onSearch={searchBooks} />
+        <SearchBar onSearch={searchBooks} loading={loading} />
         
         {loading && <LoadingSpinner />}
         
         {error && (
           <div className="error-message">
-            <p>Error: {error}</p>
+            <div className="error-icon">⚠️</div>
+            <p>Oops! {error}</p>
+            <p className="error-subtext">Please try again in a moment.</p>
           </div>
         )}
         
         {!loading && !error && hasSearched && books.length === 0 && (
           <div className="no-results">
-            <p>No books found. Try a different search term.</p>
+            <div className="no-results-icon">🔍</div>
+            <h3>No books found</h3>
+            <p>Try a different search term or check your spelling.</p>
           </div>
         )}
         
         {!loading && books.length > 0 && (
           <>
             <div className="results-info">
-              <p>Found {books.length} results</p>
+              <h2>Found {books.length} result{books.length !== 1 ? 's' : ''}</h2>
             </div>
             <div className="books-grid">
               {books.map((book, index) => (
@@ -69,7 +73,19 @@ function App() {
             </div>
           </>
         )}
+
+        {!hasSearched && !loading && (
+          <div className="welcome-message">
+            <div className="welcome-icon">📚</div>
+            <h2>Discover Your Next Read</h2>
+            <p>Search for books by title, author, or subject to get started.</p>
+          </div>
+        )}
       </main>
+      
+      <footer className="app-footer">
+        <p>Powered by <a href="https://openlibrary.org" target="_blank" rel="noopener noreferrer">Open Library</a></p>
+      </footer>
     </div>
   );
 }
